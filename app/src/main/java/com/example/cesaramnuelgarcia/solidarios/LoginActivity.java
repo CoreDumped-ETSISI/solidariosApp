@@ -7,7 +7,9 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -47,6 +49,7 @@ import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -63,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -95,8 +98,15 @@ public class LoginActivity extends AppCompatActivity {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                //attemptLogin();
-                login();
+                if (isEmailValid(mEmailView.getText().toString()) && isPasswordValid(mEmailView.getText().toString())) {
+                    try {
+                        login();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                    Toast.makeText(LoginActivity.this, "El correo o la contraseña no son válidos", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -161,16 +171,33 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void login() {
+    public void login() throws JSONException {
 
         RequestQueue queue = AppSingleton.getInstance(this.getApplicationContext()).
                 getRequestQueue();
-        //TODO: Define proper URL for login request
-        String url = "http://";
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+        String url = R.string.baseURL + "/user/login/";
+        JSONObject loginBody = new JSONObject();
+        loginBody.accumulate("email", mEmailView.getText().toString());
+        loginBody.accumulate("password", mPasswordView.getText().toString());
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, loginBody, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Toast.makeText(getApplicationContext(), "Connection Succeeded", Toast.LENGTH_LONG).show();
+                Intent toMainActivity;
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("loggedUser", response.toString());
+                editor.apply();
+                try {
+                    if(response.getString("role").equalsIgnoreCase("volunteer")){
+                        toMainActivity = new Intent(getApplicationContext(), MainVolunteerActivity.class);
+                        startActivity(toMainActivity);
+                    } else {
+                        toMainActivity = new Intent(getApplicationContext(), MainNeederActivity.class);
+                        startActivity(toMainActivity);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
