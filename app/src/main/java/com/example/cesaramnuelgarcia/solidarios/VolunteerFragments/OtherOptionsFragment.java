@@ -1,15 +1,32 @@
 package com.example.cesaramnuelgarcia.solidarios.VolunteerFragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.cesaramnuelgarcia.solidarios.Activities.WaitingList;
+import com.example.cesaramnuelgarcia.solidarios.AppSingleton;
 import com.example.cesaramnuelgarcia.solidarios.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Date;
+
+import static android.view.View.VISIBLE;
 
 
 /**
@@ -38,11 +55,54 @@ public class OtherOptionsFragment extends Fragment {
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendRequest();
                 getActivity().finish();
                 System.exit(0);
             }
         });
 
+    }
+
+    public void sendRequest() {
+
+        String url = R.string.baseURL + "/vRequest/";
+        JSONObject requestBody = new JSONObject();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        String parsedPickedDate;
+        String parsedPickedTime;
+
+        parsedPickedDate = String.valueOf(new Date().getTime());
+        parsedPickedTime = String.valueOf(new Date().getTime());
+
+
+        try {
+            JSONObject user = new JSONObject(prefs.getString("loggedUser",""));
+            requestBody.accumulate("userId", user.get("_id"));
+            requestBody.accumulate("creationDate", new Date().toString());
+            requestBody.accumulate("title", user.get("name").toString()
+                    .concat(user.get("surname").toString()).concat(" ")
+                    .concat(", con número de teléfono: ")
+                    .concat(user.get("phone").toString())
+                    .concat(" necesita que le llames!"));
+            requestBody.accumulate("location", user.get("address"));
+            requestBody.accumulate("requestDate", parsedPickedDate);
+            requestBody.accumulate("requestTime", parsedPickedTime);
+            requestBody.accumulate("requestType", "Otros");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, requestBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(getActivity().getApplicationContext(), "¡Tu petición se ha enviado!", Toast.LENGTH_LONG).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity().getApplicationContext(), "Error on connection", Toast.LENGTH_LONG).show();
+            }
+        });
+        AppSingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     @Override
