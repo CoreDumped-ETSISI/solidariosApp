@@ -79,8 +79,8 @@ public class OtherOptionsFragment extends Fragment {
             JSONObject user = new JSONObject(prefs.getString("loggedUser",""));
             requestBody.accumulate("userId", user.get("_id"));
             requestBody.accumulate("creationDate", new Date().toString());
-            requestBody.accumulate("title", user.get("name").toString()
-                    .concat(user.get("surname").toString()).concat(" ")
+            requestBody.accumulate("title", user.get("name").toString().concat(" ")
+                    .concat(user.get("surname").toString())
                     .concat(", con número de teléfono: ")
                     .concat(user.get("phone").toString())
                     .concat(" necesita que le llames!"));
