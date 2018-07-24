@@ -132,8 +132,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login() throws JSONException {
 
-        RequestQueue queue = AppSingleton.getInstance(this.getApplicationContext()).
-                getRequestQueue();
         String url = R.string.baseURL + "/user/login/";
         JSONObject loginBody = new JSONObject();
         loginBody.accumulate("email", mEmailView.getText().toString());

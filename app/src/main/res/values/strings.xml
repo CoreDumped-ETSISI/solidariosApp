@@ -24,4 +24,10 @@
     <string name="cerrar_aplicacion">Ya puedes cerrar la aplicación, ¡la oficina te llamará en un ratito!</string>
     <string name="close_app_button">Cerrar aplicación</string>
     <string name="create_new_account_text">No tengo cuenta, pero quiero hacerme una.</string>
+    <string name="move_things">Mover cosas</string>
+    <string name="clean">Limpiar</string>
+    <string name="keepCompany">Compañía</string>
+    <string name="sendHelpRequest">Enviar petición</string>
+    <string name="when_question">¿Cuándo necesitas ayuda? Si es ahora mismo, pulsa el botón de la derecha</string>
+    <string name="right_now">Ahora mismo</string>
 </resources>

@@ -22,7 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.MainVolunteerActivity" />
-        <activity android:name=".Activities.MainNeederActivity"></activity>
+        <activity android:name=".Activities.MainNeederActivity" />
+        <activity android:name=".Activities.WaitingList"></activity>
     </application>
 
 </manifest>
