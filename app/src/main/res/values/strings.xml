@@ -23,4 +23,5 @@
     <string name="other_help_cases">Otro tipo de ayuda</string>
     <string name="cerrar_aplicacion">Ya puedes cerrar la aplicación, ¡la oficina te llamará en un ratito!</string>
     <string name="close_app_button">Cerrar aplicación</string>
+    <string name="create_new_account_text">No tengo cuenta, pero quiero hacerme una.</string>
 </resources>

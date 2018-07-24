@@ -1,9 +1,14 @@
-package com.example.cesaramnuelgarcia.solidarios;
+package com.example.cesaramnuelgarcia.solidarios.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.cesaramnuelgarcia.solidarios.R;
+import com.example.cesaramnuelgarcia.solidarios.VolunteerFragments.HomeOptionsFragment;
+import com.example.cesaramnuelgarcia.solidarios.VolunteerFragments.OtherOptionsFragment;
+import com.example.cesaramnuelgarcia.solidarios.VolunteerFragments.StreetOptionsFragment;
 
 public class MainNeederActivity extends AppCompatActivity {
 
