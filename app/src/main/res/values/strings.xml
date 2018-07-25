@@ -30,4 +30,12 @@
     <string name="sendHelpRequest">Enviar petición</string>
     <string name="when_question">¿Cuándo necesitas ayuda? Si es ahora mismo, pulsa el botón de la derecha</string>
     <string name="right_now">Ahora mismo</string>
+    <string name="go_shopping">Ir a comprar</string>
+    <string name="walk">Pasear</string>
+    <string name="go_doctor">Ir al médico</string>
+    <string name="go_event">Ir a un evento de Solidarios</string>
+    <string name="get_signed_user_list">Ver voluntarios inscritos para ayudarme</string>
+    <string name="choose_button_text">Escoger</string>
+    <string name="loading_list_items">Loading list items</string>
+    <string name="no_users_signed">No hay voluntarios inscritos a tu petición</string>
 </resources>

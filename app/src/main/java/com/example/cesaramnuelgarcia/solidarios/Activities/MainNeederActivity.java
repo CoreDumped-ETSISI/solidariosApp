@@ -1,5 +1,6 @@
 package com.example.cesaramnuelgarcia.solidarios.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ public class MainNeederActivity extends AppCompatActivity {
     private Button homeHelp;
     private Button streetHelp;
     private Button otherHelp;
+    private Button toSignedUserList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,7 @@ public class MainNeederActivity extends AppCompatActivity {
         this.homeHelp = findViewById(R.id.homeHelp);
         this.streetHelp = findViewById(R.id.streetHelp);
         this.otherHelp = findViewById(R.id.otherHelp);
+        this.toSignedUserList = findViewById(R.id.toSignedUserList);
 
 
         this.homeHelp.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +47,14 @@ public class MainNeederActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setFragment(2);
+            }
+        });
+
+        this.toSignedUserList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toSignedUserList = new Intent(getApplicationContext(), WaitingList.class);
+                startActivity(toSignedUserList);
             }
         });
     }

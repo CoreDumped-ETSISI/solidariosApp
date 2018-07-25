@@ -20,7 +20,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:layout_margin="40dp"
-                android:weightSum="3"
+                android:weightSum="4"
                 android:gravity="center">
 
                 <Button
@@ -48,6 +48,15 @@
                     android:text="@string/other_help_cases"
                     android:textAlignment="center"
                     android:id="@+id/otherHelp"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/get_signed_user_list"
+                    android:textAlignment="center"
+                    android:id="@+id/toSignedUserList"/>
 
 
             </LinearLayout>
