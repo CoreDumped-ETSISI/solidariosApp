@@ -38,4 +38,9 @@
     <string name="choose_button_text">Escoger</string>
     <string name="loading_list_items">Loading list items</string>
     <string name="no_users_signed">No hay voluntarios inscritos a tu petición</string>
+    <string name="update_profile">Actualizar perfil</string>
+    <string name="look_for_needer">Ayudar a alguien</string>
+    <string name="new_password">Nueva contraseña</string>
+    <string name="repeat_new_password">Repite nueva contraseña</string>
+    <string name="save_changes">Guardar cambios</string>
 </resources>

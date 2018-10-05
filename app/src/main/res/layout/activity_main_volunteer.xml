@@ -6,4 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".Activities.MainVolunteerActivity">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="40dp"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:id="@+id/changeProfile"
+                android:text="@string/update_profile"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:id="@+id/lookForNeeders"
+                android:text="@string/look_for_needer"/>
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+
 </android.support.constraint.ConstraintLayout>

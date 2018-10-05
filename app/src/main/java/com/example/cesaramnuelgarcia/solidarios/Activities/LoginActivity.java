@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -53,6 +54,8 @@ public class LoginActivity extends AppCompatActivity {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
+        checkCallPermission();
+
 
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -72,31 +75,32 @@ public class LoginActivity extends AppCompatActivity {
         createAccount.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                builder.setMessage(R.string.call_dialog_message)
+                Log.d("DEBUG", "TOUCHED!!");
+                AlertDialog builder = new AlertDialog.Builder(LoginActivity.this)
+                        .setMessage(R.string.call_dialog_message)
+                        .setCancelable(false)
                         .setPositiveButton(R.string.positive_call, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE);
-
                                 if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE)
-                                        != PackageManager.PERMISSION_GRANTED) {
-                                    //Request permission
-                                    ActivityCompat.requestPermissions(getParent(), new String[] {Manifest.permission.CALL_PHONE},
-                                            permissionCheck);
+                                        == PackageManager.PERMISSION_GRANTED) {
                                     Intent intent = new Intent(Intent.ACTION_CALL);
-                                    intent.setData(Uri.parse("tel:" + R.string.phoneNumber));
+                                    intent.setData(Uri.parse("tel:".concat(getString(R.string.phoneNumber))));
+                                    dialog.cancel();
                                     startActivity(intent);
-
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "No se han concedido permisos de llamadas.", Toast.LENGTH_LONG).show();
                                 }
                             }
                         }).setNegativeButton(R.string.negative_call, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
                         Toast.makeText(getApplicationContext(), "Recuerda que debes llamar para obtener tu cuenta", Toast.LENGTH_LONG).show();
                     }
-                });
+                }).show();
                 }
             });
     }
+
 
     private boolean isEmailValid(String email) {
         return email.contains("@");
@@ -130,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
     public void login() throws JSONException {
 
         String url = R.string.baseURL + "/user/login/";
@@ -147,9 +152,11 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     if(response.getString("role").equalsIgnoreCase("volunteer")){
                         toMainActivity = new Intent(getApplicationContext(), MainVolunteerActivity.class);
+                        toMainActivity.putExtra("user", response.toString());
                         startActivity(toMainActivity);
                     } else {
                         toMainActivity = new Intent(getApplicationContext(), MainNeederActivity.class);
+                        toMainActivity.putExtra("user", response.toString());
                         startActivity(toMainActivity);
                     }
                 } catch (JSONException e) {
@@ -164,5 +171,12 @@ public class LoginActivity extends AppCompatActivity {
         });
         AppSingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
-}
 
+    public void checkCallPermission() {
+        if (ContextCompat.checkSelfPermission( this, Manifest.permission.CALL_PHONE )
+                != PackageManager.PERMISSION_GRANTED) {
+            String[] tempPerms = {Manifest.permission.CALL_PHONE};
+            ActivityCompat.requestPermissions( this, tempPerms, 123 );
+        }
+    }
+}

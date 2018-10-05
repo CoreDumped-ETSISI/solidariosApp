@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.MainNeederActivity">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -19,49 +15,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_margin="40dp"
-                android:weightSum="4"
-                android:gravity="center">
+                android:layout_marginTop="20dp"
+                android:layout_margin="40dp">
 
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/help_at_home"
-                    android:textAlignment="center"
-                    android:id="@+id/homeHelp"/>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_height="20dp"
                     android:layout_marginTop="20dp"
-                    android:text="@string/help_in_the_street"
-                    android:textAlignment="center"
-                    android:id="@+id/streetHelp"/>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/other_help_cases"
-                    android:textAlignment="center"
-                    android:id="@+id/otherHelp"/>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
                     android:text="@string/get_signed_user_list"
                     android:textAlignment="center"
                     android:id="@+id/toSignedUserList"/>
 
+                <ListView
+                    android:id="@+id/eventNeederList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </ListView>
 
             </LinearLayout>
 
         </FrameLayout>
-    </FrameLayout>
 
-</android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.DrawerLayout>

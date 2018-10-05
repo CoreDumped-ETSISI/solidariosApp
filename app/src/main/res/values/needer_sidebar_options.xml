@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array
+        name="needer_sidebar_options">
+        <item>Últimas noticias</item>
+        <item>Ayuda en casa</item>
+        <item>Ayuda en la calle</item>
+        <item>Otro tipo de ayuda</item>
+        <item>Configuración</item>
+    </string-array>
+</resources>

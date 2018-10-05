@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="volunteer_sidebar_options">
+        <item>Últimas noticias</item>
+        <item>Ayudar en casa</item>
+        <item>Ayudar en la calle</item>
+        <item>Otros tipos de ayuda</item>
+        <item>Configuración</item>
+    </string-array>
+</resources>

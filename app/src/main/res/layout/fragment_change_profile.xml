@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NeederFragments.ChangeProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="40dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="30dp"
+            android:id="@+id/registeredFirstName"
+            android:inputType="none"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="30dp"
+            android:id="@+id/registeredLastName"
+            android:inputType="none"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="30dp"
+            android:id="@+id/registeredEmail"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="30dp"
+            android:id="@+id/registeredPassword"
+            android:inputType="textPassword"
+            android:hint="@string/new_password"/>
+
+        <EditText
+            android:id="@+id/registeredNewPassword"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="@string/repeat_new_password" />
+
+        <TextView
+            android:id="@+id/newPasswordHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:textSize="12sp"
+            android:text="La nueva contraseña debe tener al menos 8 caracteres" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/saveProfileChanges"
+            android:enabled="false"
+            android:text="@string/save_changes"/>
+
+    </LinearLayout>
+
+</FrameLayout>
