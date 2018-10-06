@@ -160,7 +160,7 @@ public class MainVolunteerActivity extends AppCompatActivity {
                 fragmentTransaction.replace(R.id.fragment, changeProfileFragment);
                 fragmentTransaction.commit();
                 break;
-            default: break;
+
         }
     }
 
