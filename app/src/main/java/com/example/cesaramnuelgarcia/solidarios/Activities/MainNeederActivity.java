@@ -1,35 +1,21 @@
 package com.example.cesaramnuelgarcia.solidarios.Activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.DataSetObserver;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.EventLog;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.cesaramnuelgarcia.solidarios.AppSingleton;
 import com.example.cesaramnuelgarcia.solidarios.NeederFragments.ChangeProfileFragment;
 import com.example.cesaramnuelgarcia.solidarios.NeederFragments.NewsFragment;
@@ -44,7 +30,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class MainNeederActivity extends AppCompatActivity {
 
@@ -109,17 +94,6 @@ public class MainNeederActivity extends AppCompatActivity {
         return newsTitles;
     }
 
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-        try{
-            jsonEvents = new JSONArray(events);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void getEventsFromServer() {
         String url = R.string.baseURL + "/events/";
 
@@ -127,6 +101,12 @@ public class MainNeederActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 events = response;
+
+                try{
+                    jsonEvents = new JSONArray(events);
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), R.string.fail_events_server, Toast.LENGTH_SHORT).show();
+                }
             }
         }, new Response.ErrorListener() {
             @Override

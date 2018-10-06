@@ -1,8 +1,6 @@
 package com.example.cesaramnuelgarcia.solidarios.Activities;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,18 +12,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -39,30 +33,38 @@ public class LoginActivity extends AppCompatActivity {
     // UI references.
     private EditText mEmailView;
     private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
-    private TextView createAccount;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         mEmailView = findViewById(R.id.email);
         mPasswordView = findViewById(R.id.password);
-        createAccount = findViewById(R.id.newAccount);
-        Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+
+        setOnClicks();
 
         checkCallPermission();
 
 
+        try {
+            String token = getOldToken();
+            if(token != null)
+                getUser(token);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setOnClicks() {
+        Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isEmailValid(mEmailView.getText().toString()) && isPasswordValid(mEmailView.getText().toString())) {
+                if (isEmailValid(mEmailView.getText().toString()) && isPasswordValid(mPasswordView.getText().toString())) {
                     try {
-                        login();
+                        login(null);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -72,11 +74,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        TextView createAccount = findViewById(R.id.newAccount);
         createAccount.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("DEBUG", "TOUCHED!!");
-                AlertDialog builder = new AlertDialog.Builder(LoginActivity.this)
+                new AlertDialog.Builder(LoginActivity.this)
                         .setMessage(R.string.call_dialog_message)
                         .setCancelable(false)
                         .setPositiveButton(R.string.positive_call, new DialogInterface.OnClickListener() {
@@ -110,39 +113,64 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
+    public void login(String token) throws JSONException {
 
-    private void showProgress(final boolean show) {
 
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+        if(token == null) {
+            String url = getString(R.string.baseURL) + "/user/login/";
+            JSONObject loginBody = new JSONObject();
+            loginBody.accumulate("email", mEmailView.getText().toString());
+            loginBody.accumulate("password", mPasswordView.getText().toString());
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, loginBody, new Response.Listener<JSONObject>() {
                 @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                public void onResponse(JSONObject response) {
+                    Intent toMainActivity;
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("loggedUser", response.toString());
+                    editor.apply();
+
+                    try {
+                        if (response.getJSONObject("user").getString("role").contentEquals("volunteer")) {
+                            toMainActivity = new Intent(getApplicationContext(), MainVolunteerActivity.class);
+                            startActivity(toMainActivity);
+                        } else if ((response.getJSONObject("user").getString("role").contentEquals("needer"))) {
+                            toMainActivity = new Intent(getApplicationContext(), MainNeederActivity.class);
+                            toMainActivity.putExtra("user", response.toString());
+                            startActivity(toMainActivity);
+                        } else {
+                            Toast.makeText(getApplicationContext(), R.string.login_not_valid, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(), "Error on connection", Toast.LENGTH_LONG).show();
                 }
             });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-
+            AppSingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
+        }
     }
 
+    private String getOldToken() throws JSONException {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String temp = prefs.getString("loggedUser", null);
+        if (temp != null) {
+            JSONObject loginBody = new JSONObject(temp);
+            return loginBody.getString("token");
+        }
 
-    public void login() throws JSONException {
+        return null;
+    }
 
-        String url = R.string.baseURL + "/user/login/";
+    private void getRenewToken() {
+        String url = getString(R.string.baseURL) + "/user/renew/";
         JSONObject loginBody = new JSONObject();
-        loginBody.accumulate("email", mEmailView.getText().toString());
-        loginBody.accumulate("password", mPasswordView.getText().toString());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, loginBody, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, loginBody, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Intent toMainActivity;
@@ -150,19 +178,22 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("loggedUser", response.toString());
                 editor.apply();
+
                 try {
-                    if(response.getString("role").equalsIgnoreCase("volunteer")){
+                    if (response.getJSONObject("user").getString("role").contentEquals("volunteer")) {
                         toMainActivity = new Intent(getApplicationContext(), MainVolunteerActivity.class);
-                        toMainActivity.putExtra("user", response.toString());
                         startActivity(toMainActivity);
-                    } else {
+                    } else if ((response.getJSONObject("user").getString("role").contentEquals("needer"))) {
                         toMainActivity = new Intent(getApplicationContext(), MainNeederActivity.class);
                         toMainActivity.putExtra("user", response.toString());
                         startActivity(toMainActivity);
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.login_not_valid, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -180,4 +211,51 @@ public class LoginActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions( this, tempPerms, 123 );
         }
     }
+
+    private void getUser(String token) {
+        final String tokenFinal = token;
+        String url = getString(R.string.baseURL) + "/user/renew?Authenticate="+tokenFinal;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Intent toMainActivity;
+
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = prefs.edit();
+                try {
+                    response.accumulate("token", tokenFinal);
+                } catch (JSONException ignored){}
+                    editor.putString("loggedUser", response.toString());
+                    editor.apply();
+
+                try {
+                    if (response.getJSONObject("user").getString("role").contentEquals("volunteer")) {
+                        toMainActivity = new Intent(getApplicationContext(), MainVolunteerActivity.class);
+                        startActivity(toMainActivity);
+                    } else if ((response.getJSONObject("user").getString("role").contentEquals("needer"))) {
+                        toMainActivity = new Intent(getApplicationContext(), MainNeederActivity.class);
+                        toMainActivity.putExtra("user", response.toString());
+                        startActivity(toMainActivity);
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.login_not_valid, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse.statusCode == 401)
+                    getRenewToken();
+                else
+                    Toast.makeText(getApplicationContext(), "Error on connection", Toast.LENGTH_LONG).show();
+            }
+        });
+        AppSingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
+
+
+    }
+
 }

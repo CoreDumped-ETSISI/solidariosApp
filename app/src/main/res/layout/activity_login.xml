@@ -50,7 +50,7 @@
                     android:textColorHint="@color/colorBlack"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textAlignment="center" />
+                    android:textAlignment="inherit" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -62,7 +62,6 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
                     android:hint="@string/prompt_password"
                     android:textColorHint="@color/colorBlack"
                     android:imeActionId="6"
@@ -70,7 +69,8 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textAlignment="inherit" />
 
             </android.support.design.widget.TextInputLayout>
 
