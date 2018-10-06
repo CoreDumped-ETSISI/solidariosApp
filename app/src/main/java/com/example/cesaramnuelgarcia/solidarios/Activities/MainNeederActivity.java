@@ -131,7 +131,7 @@ public class MainNeederActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error on connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
             }
         });
         AppSingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
@@ -147,6 +147,7 @@ public class MainNeederActivity extends AppCompatActivity {
                 NewsFragment newsFragment = new NewsFragment();
                 fragmentTransaction.replace(R.id.fragment, newsFragment);
                 fragmentTransaction.commit();
+                break;
             case 1:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -178,7 +179,7 @@ public class MainNeederActivity extends AppCompatActivity {
                 fragmentTransaction.replace(R.id.fragment, changeProfileFragment);
                 fragmentTransaction.commit();
                 break;
-            default: break;
+
         }
     }
 

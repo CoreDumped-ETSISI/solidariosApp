@@ -43,4 +43,9 @@
     <string name="new_password">Nueva contraseña</string>
     <string name="repeat_new_password">Repite nueva contraseña</string>
     <string name="save_changes">Guardar cambios</string>
+    <string name="login_fail">El correo o la contraseña no son válidos</string>
+    <string name="no_calling_permission">No se han concedido permisos de llamadas.</string>
+    <string name="call_get_account">Recuerda que debes llamar para obtener tu cuenta</string>
+    <string name="error_json_response">Error on connection</string>
+    <string name="error_connection">Error on connection</string>
 </resources>

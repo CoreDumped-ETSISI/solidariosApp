@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
                 else
-                    Toast.makeText(LoginActivity.this, "El correo o la contraseña no son válidos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, R.string.login_fail, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -88,15 +88,16 @@ public class LoginActivity extends AppCompatActivity {
                                     dialog.cancel();
                                     startActivity(intent);
                                 } else {
-                                    Toast.makeText(LoginActivity.this, "No se han concedido permisos de llamadas.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(LoginActivity.this, R.string.no_calling_permission, Toast.LENGTH_LONG).show();
                                 }
                             }
                         }).setNegativeButton(R.string.negative_call, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        Toast.makeText(getApplicationContext(), "Recuerda que debes llamar para obtener tu cuenta", Toast.LENGTH_LONG).show();
-                    }
-                }).show();
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(), R.string.call_get_account, Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .show();
                 }
             });
     }
@@ -106,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         return email.contains("@");
     }
     private boolean isPasswordValid(String password) {
-        return password.length() > 4;
+        return true;
     }
 
 
@@ -166,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error on connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.error_json_response, Toast.LENGTH_LONG).show();
             }
         });
         AppSingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
