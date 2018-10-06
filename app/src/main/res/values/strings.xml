@@ -14,7 +14,7 @@
     <string name="positive_call">Sí, quiero llamar</string>
     <string name="negative_call">No, llamaré más tarde</string>
     <string name="phoneNumber">606709629</string>
-    <string name="baseURL">http://api.solidarios.coredumped.es/</string>
+    <string name="baseURL">http://api.solidarios.coredumped.es</string>
     <string name="help_at_home">Ayuda en casa</string>
     <string name="help_in_the_street">Ayuda en el exterior</string>
 
