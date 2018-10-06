@@ -50,4 +50,5 @@
     <string name="error_connection">Error on connection</string>
     <string name="request_accepted">¡Tu petición se ha enviado!</string>
     <string name="fail_events_server">Fail to obtain events from server.</string>
+    <string name="login_not_valid">Usuario no válido.</string>
 </resources>
