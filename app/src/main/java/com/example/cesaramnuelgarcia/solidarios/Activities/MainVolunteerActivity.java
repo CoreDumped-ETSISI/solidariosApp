@@ -107,7 +107,7 @@ public class MainVolunteerActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error on connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
             }
         });
         AppSingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
