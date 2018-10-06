@@ -48,4 +48,5 @@
     <string name="call_get_account">Recuerda que debes llamar para obtener tu cuenta</string>
     <string name="error_json_response">Error on connection</string>
     <string name="error_connection">Error on connection</string>
+    <string name="request_accepted">¡Tu petición se ha enviado!</string>
 </resources>

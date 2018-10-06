@@ -94,12 +94,12 @@ public class OtherOptionsFragment extends Fragment {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, requestBody, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Toast.makeText(getActivity().getApplicationContext(), "¡Tu petición se ha enviado!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(), R.string.request_accepted, Toast.LENGTH_LONG).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity().getApplicationContext(), "Error on connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
             }
         });
         AppSingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);

@@ -207,7 +207,7 @@ public class HomeOptionsFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity().getApplicationContext(), "Error on connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
             }
         });
         AppSingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
