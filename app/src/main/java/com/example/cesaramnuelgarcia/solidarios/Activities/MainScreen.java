@@ -1,9 +1,11 @@
 package com.example.cesaramnuelgarcia.solidarios.Activities;
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -135,6 +137,12 @@ public class MainScreen extends AppCompatActivity {
     }
 
     private void logOut() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("loggedUser", null);
+        editor.apply();
+
+        onBackPressed();
 
     }
 }

@@ -15,6 +15,8 @@ public class AppSingleton {
         private ImageLoader mImageLoader;
         private static Context mCtx;
 
+        public String token;
+
         private AppSingleton(Context context) {
             mCtx = context;
             mRequestQueue = getRequestQueue();
@@ -59,5 +61,8 @@ public class AppSingleton {
         public ImageLoader getImageLoader() {
             return mImageLoader;
         }
+
+
+
 
 }

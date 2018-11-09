@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -27,6 +29,9 @@ import com.example.cesaramnuelgarcia.solidarios.AppSingleton;
 import com.example.cesaramnuelgarcia.solidarios.R;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -45,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
         setOnClicks();
 
         checkCallPermission();
-
 
         try {
             String token = getOldToken();
@@ -132,11 +136,14 @@ public class LoginActivity extends AppCompatActivity {
 
                     try {
                         if (response.getJSONObject("user").getString("role").contentEquals("volunteer")) {
-                            toMainActivity = new Intent(getApplicationContext(), MainVolunteerActivity.class);
+                            AppSingleton.getInstance(getApplicationContext()).token = response.getString("token");
+                            toMainActivity = new Intent(getApplicationContext(), MainScreen.class);
+                            toMainActivity.putExtra("role", "volunteer");
                             startActivity(toMainActivity);
                         } else if ((response.getJSONObject("user").getString("role").contentEquals("needer"))) {
-                            toMainActivity = new Intent(getApplicationContext(), MainNeederActivity.class);
-                            toMainActivity.putExtra("user", response.toString());
+                            AppSingleton.getInstance(getApplicationContext()).token = response.getString("token");
+                            toMainActivity = new Intent(getApplicationContext(), MainScreen.class);
+                            toMainActivity.putExtra("role", "volunteer");
                             startActivity(toMainActivity);
                         } else {
                             Toast.makeText(getApplicationContext(), R.string.login_not_valid, Toast.LENGTH_LONG).show();
@@ -181,11 +188,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 try {
                     if (response.getJSONObject("user").getString("role").contentEquals("volunteer")) {
-                        toMainActivity = new Intent(getApplicationContext(), MainVolunteerActivity.class);
+                        AppSingleton.getInstance(getApplicationContext()).token = response.getString("token");
+                        toMainActivity = new Intent(getApplicationContext(), MainScreen.class);
+                        toMainActivity.putExtra("role", "volunteer");
                         startActivity(toMainActivity);
                     } else if ((response.getJSONObject("user").getString("role").contentEquals("needer"))) {
-                        toMainActivity = new Intent(getApplicationContext(), MainNeederActivity.class);
-                        toMainActivity.putExtra("user", response.toString());
+                        AppSingleton.getInstance(getApplicationContext()).token = response.getString("token");
+                        toMainActivity = new Intent(getApplicationContext(), MainScreen.class);
+                        toMainActivity.putExtra("role", "volunteer");
                         startActivity(toMainActivity);
                     } else {
                         Toast.makeText(getApplicationContext(), R.string.login_not_valid, Toast.LENGTH_LONG).show();
@@ -214,27 +224,32 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getUser(String token) {
         final String tokenFinal = token;
-        String url = getString(R.string.baseURL) + "/user/renew?Authenticate="+tokenFinal;
+        String url = getString(R.string.baseURL) + "/user/renew";
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
             @Override
             public void onResponse(JSONObject response) {
                 Intent toMainActivity;
 
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = prefs.edit();
-                try {
+                /*try {
                     response.accumulate("token", tokenFinal);
                 } catch (JSONException ignored){}
                     editor.putString("loggedUser", response.toString());
                     editor.apply();
-
+*/
                 try {
                     if (response.getJSONObject("user").getString("role").contentEquals("volunteer")) {
-                        toMainActivity = new Intent(getApplicationContext(), MainVolunteerActivity.class);
+                        AppSingleton.getInstance(getApplicationContext()).token = response.getString("token");
+                        toMainActivity = new Intent(getApplicationContext(), MainScreen.class);
+                        toMainActivity.putExtra("role", "volunteer");
                         startActivity(toMainActivity);
                     } else if ((response.getJSONObject("user").getString("role").contentEquals("needer"))) {
-                        toMainActivity = new Intent(getApplicationContext(), MainNeederActivity.class);
-                        toMainActivity.putExtra("user", response.toString());
+                        AppSingleton.getInstance(getApplicationContext()).token = response.getString("token");
+                        toMainActivity = new Intent(getApplicationContext(), MainScreen.class);
+                        toMainActivity.putExtra("role", "volunteer");
                         startActivity(toMainActivity);
                     } else {
                         Toast.makeText(getApplicationContext(), R.string.login_not_valid, Toast.LENGTH_LONG).show();
@@ -252,7 +267,14 @@ public class LoginActivity extends AppCompatActivity {
                 else
                     Toast.makeText(getApplicationContext(), "Error on connection", Toast.LENGTH_LONG).show();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "Bearer " + tokenFinal);
+                return params;
+            }
+        };
         AppSingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
 
 
