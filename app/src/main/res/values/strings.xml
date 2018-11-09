@@ -51,4 +51,17 @@
     <string name="request_accepted">¡Tu petición se ha enviado!</string>
     <string name="fail_events_server">Fail to obtain events from server.</string>
     <string name="login_not_valid">Usuario no válido.</string>
+    <string name="email">e-mail</string>
+
+    <!-- Strings related to profile -->
+    <string name="data_email">Email</string>
+    <string name="data_name">Nombre</string>
+    <string name="data_surname">Primer Apellido</string>
+    <string name="data_age">Edad</string>
+    <string name="data_gender">Género</string>
+    <string name="data_description">Descripción</string>
+    <string name="data_phone_number">Número de Teléfono</string>
+    <string name="data_address">Dirección</string>
+    <string name="data_dni">DNI</string>
+
 </resources>
