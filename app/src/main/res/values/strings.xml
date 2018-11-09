@@ -10,9 +10,8 @@
     <string name="error_invalid_password">Contraseña demasiado corta</string>
     <string name="error_incorrect_password">Contraseña incorrecta</string>
     <string name="error_field_required">Este campo no puede estar vacío</string>
-    <string name="call_dialog_message">Para hacer esto, hay que llamar por teléfono, ¿quieres llamar ahora?</string>
-    <string name="positive_call">Sí, quiero llamar</string>
-    <string name="negative_call">No, llamaré más tarde</string>
+    <string name="call">Llamar</string>
+    <string name="form">Formulario</string>
     <string name="phoneNumber">606709629</string>
     <string name="baseURL">http://api.solidarios.coredumped.es</string>
     <string name="help_at_home">Ayuda en casa</string>

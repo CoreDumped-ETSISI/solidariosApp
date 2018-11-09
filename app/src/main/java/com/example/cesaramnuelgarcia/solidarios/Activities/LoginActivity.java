@@ -84,9 +84,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("DEBUG", "TOUCHED!!");
                 new AlertDialog.Builder(LoginActivity.this)
-                        .setMessage(R.string.call_dialog_message)
+                        .setMessage("El registro lo puede realizar mediante un formulario o a través de una llamada.")
                         .setCancelable(false)
-                        .setPositiveButton(R.string.positive_call, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.call, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE)
                                         == PackageManager.PERMISSION_GRANTED) {
@@ -98,10 +98,14 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(LoginActivity.this, R.string.no_calling_permission, Toast.LENGTH_LONG).show();
                                 }
                             }
-                        }).setNegativeButton(R.string.negative_call, new DialogInterface.OnClickListener() {
+                        }).setNegativeButton(R.string.form, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
-                                Toast.makeText(getApplicationContext(), R.string.call_get_account, Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, "Show form", Toast.LENGTH_LONG).show();
+                                /*
+                                toMainActivity = new Intent(getApplicationContext(), RegistryFormActivity.class);
+                                startActivity(toMainActivity);
+                                 */
                             }
                         })
                         .show();

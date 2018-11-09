@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.cesaramnuelgarcia.solidarios.R;
 
@@ -106,7 +107,7 @@ public class MainScreen extends AppCompatActivity {
                 nvDrawer.getMenu().getItem(i).setChecked(false);
             }
             menuItem.setChecked(true);
-           // initFragmentUserChannelList();
+            initFragmentHelp();
             this.mDrawerLayout.closeDrawer(Gravity.START, true);
 
         } else if(menuItem.getTitle().toString().compareTo(getString(R.string.event))==0) {
@@ -115,25 +116,32 @@ public class MainScreen extends AppCompatActivity {
                 nvDrawer.getMenu().getItem(i).setChecked(false);
             }
             menuItem.setChecked(true);
-            //initFragmentUserChannelList();
+            initFragmentEvent();
             this.mDrawerLayout.closeDrawer(Gravity.START, true);
 
         } else if(menuItem.getTitle().toString().compareTo(getString(R.string.disconnect))==0) {
             this.logOut();
             this.mDrawerLayout.closeDrawer(Gravity.START, true);
-
         }
 
         Log.d("selectDrawerItem", menuItem.getTitle().toString());
     }
 
 
-    /**
-     * Initialize fragment User Channel List
-     */
-    private void initFragmentUserChannelList() {
+    private void initFragmentHelp() {
+        Toast.makeText(this, "Go to Help", Toast.LENGTH_SHORT).show();
+        /*
         this.actualFragment = Fragment.instantiate(this, "");
         getFragmentManager().beginTransaction().replace(R.id.content_frame, this.actualFragment).commitAllowingStateLoss();
+        */
+    }
+
+    private void initFragmentEvent() {
+        Toast.makeText(this, "Go to Event", Toast.LENGTH_SHORT).show();
+        /*
+        this.actualFragment = Fragment.instantiate(this, "");
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, this.actualFragment).commitAllowingStateLoss();
+        */
     }
 
     private void logOut() {
