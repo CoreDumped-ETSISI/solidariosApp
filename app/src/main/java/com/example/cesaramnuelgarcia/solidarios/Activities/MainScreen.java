@@ -60,6 +60,10 @@ public class MainScreen extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
     /**
      * Setup ToolBar Activity Main
      */
