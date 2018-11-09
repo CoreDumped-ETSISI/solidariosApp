@@ -51,4 +51,10 @@
     <string name="request_accepted">¡Tu petición se ha enviado!</string>
     <string name="fail_events_server">Fail to obtain events from server.</string>
     <string name="login_not_valid">Usuario no válido.</string>
+
+    <string name="help">Ayuda</string>
+    <string name="event">Eventos</string>
+    <string name="disconnect">Desconectar</string>
+    <string name="drawerOpen">Open navigation drawer</string>
+    <string name="drawerClose">Close navigation drawer</string>
 </resources>
